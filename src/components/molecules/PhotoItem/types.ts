@@ -3,6 +3,6 @@ import {ViewProps} from 'react-native';
 
 export type PhotoItemProps = {
   photo: IPhoto;
-  onPressLike: () => void;
-  onPressDislike: () => void;
+  onPressLike: (item: IPhoto) => void;
+  onPressDislike: (item: IPhoto) => void;
 } & ViewProps;
