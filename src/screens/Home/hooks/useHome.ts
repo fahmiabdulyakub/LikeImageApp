@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {getPhotos} from '@services/UnsplashService';
 import {IPhoto} from '@types';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 
 const useHome = () => {
   const [photos, setPhotos] = useState<IPhoto[]>([]);
@@ -22,53 +23,60 @@ const useHome = () => {
   };
 
   const handleLikeAll = () => {
-    const updatedData = photos.map(item => ({
-      ...item,
-      likes: item.likes + 1,
-    }));
-    setPhotos(updatedData);
+    setPhotos(prevData =>
+      prevData.map(item => ({
+        ...item,
+        likes: item.likes + 1,
+      })),
+    );
   };
 
   const handleResetAll = () => {
-    const updatedData = photos.map(item => ({
-      ...item,
-      likes: 0,
-    }));
-    setPhotos(updatedData);
+    setPhotos(prevData =>
+      prevData.map(item => ({
+        ...item,
+        likes: 0,
+      })),
+    );
   };
 
   const handleDislikeAll = () => {
-    const updatedData = photos.map(item => ({
-      ...item,
-      likes: item.likes ? item.likes - 1 : 0,
-    }));
-    setPhotos(updatedData);
+    setPhotos(prevData =>
+      prevData.map(item => ({
+        ...item,
+        likes: item.likes ? item.likes - 1 : 0,
+      })),
+    );
   };
 
-  const handleLike = (item: IPhoto) => {
-    const updatedData = photos.map(dataItem => {
-      if (dataItem.id === item.id) {
-        return {...dataItem, likes: dataItem.likes + 1};
-      }
-      return dataItem;
-    });
-    setPhotos(updatedData);
-  };
-
-  const handleDislike = (item: IPhoto) => {
-    if (item.likes > 0) {
-      const updatedData = photos.map(dataItem => {
+  const handleLike = useCallback((item: IPhoto) => {
+    setPhotos(prevData =>
+      prevData.map(dataItem => {
         if (dataItem.id === item.id) {
-          return {...dataItem, likes: dataItem.likes - 1};
+          return {...dataItem, likes: dataItem.likes + 1};
         }
         return dataItem;
-      });
-      setPhotos(updatedData);
+      }),
+    );
+  }, []);
+
+  const handleDislike = useCallback((item: IPhoto) => {
+    if (item.likes) {
+      setPhotos(prevData =>
+        prevData.map(dataItem => {
+          if (dataItem.id === item.id) {
+            return {...dataItem, likes: dataItem.likes - 1};
+          }
+          return dataItem;
+        }),
+      );
     }
-  };
+  }, []);
+
+  const memoizedData = useMemo(() => photos, [photos]);
 
   return {
-    photos,
+    memoizedData,
     isLoading,
     handleLike,
     handleDislike,

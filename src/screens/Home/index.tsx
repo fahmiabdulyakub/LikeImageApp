@@ -8,7 +8,7 @@ import {IPhotoItem} from './types';
 
 const Home = () => {
   const {
-    photos,
+    memoizedData,
     isLoading,
     handleLike,
     handleDislike,
@@ -36,7 +36,7 @@ const Home = () => {
         <Button title="Dislike All" color="red" onPress={handleDislikeAll} />
       </View>
       <FlatList
-        data={photos}
+        data={memoizedData}
         renderItem={renderItem}
         contentContainerStyle={styles.listContainer}
         ListFooterComponent={<Loading isLoading={isLoading} />}
