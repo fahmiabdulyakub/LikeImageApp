@@ -1,2 +1,3 @@
 import Button from './Button';
-export {Button};
+import Loading from './Loading';
+export {Button, Loading};
