@@ -1,7 +1,7 @@
 import {TouchableOpacityProps} from 'react-native';
 
 export type PropsType = {
-  text: string;
+  title: string;
   textStyle?: object;
   color?: ButtonColor;
 } & TouchableOpacityProps;

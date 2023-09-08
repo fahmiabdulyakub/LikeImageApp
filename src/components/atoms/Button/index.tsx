@@ -6,7 +6,7 @@ import useButton from './hooks/useButton';
 import {Colors} from '@themes';
 
 const Button = (props: PropsType) => {
-  const {text, style, textStyle, color, ...baseProps} = props;
+  const {title, style, textStyle, color, ...baseProps} = props;
   const {getColor} = useButton(color);
   return (
     <TouchableOpacity
@@ -18,7 +18,7 @@ const Button = (props: PropsType) => {
           textStyle,
           {color: color === 'white' && Colors.black},
         ]}>
-        {text}
+        {title}
       </Text>
     </TouchableOpacity>
   );

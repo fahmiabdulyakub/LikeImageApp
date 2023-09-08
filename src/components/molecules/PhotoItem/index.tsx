@@ -10,10 +10,10 @@ const PhotoItem = (props: PhotoItemProps) => {
     <View style={styles.container} {...baseProps}>
       <Image source={{uri: photo.urls.regular}} style={styles.thumbnail} />
       <View style={styles.contentContainer}>
-        <Button text={photo.likes + ' Like'} disabled color="white" />
+        <Button title={photo.likes + ' Like'} disabled color="white" />
         <View style={styles.likeContainer}>
-          <Button text="Like" color="blue" onPress={onPressLike} />
-          <Button text="Dislike" color="red" onPress={onPressDislike} />
+          <Button title="Like" color="blue" onPress={onPressLike} />
+          <Button title="Dislike" color="red" onPress={onPressDislike} />
         </View>
       </View>
     </View>
