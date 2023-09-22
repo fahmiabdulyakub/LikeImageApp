@@ -49,29 +49,35 @@ const useHome = () => {
     );
   };
 
-  const handleLike = useCallback((item: IPhoto) => {
-    setPhotos(prevData =>
-      prevData.map(dataItem => {
-        if (dataItem.id === item.id) {
-          return {...dataItem, likes: dataItem.likes + 1};
-        }
-        return dataItem;
-      }),
-    );
-  }, []);
-
-  const handleDislike = useCallback((item: IPhoto) => {
-    if (item.likes) {
+  const handleLike = useCallback(
+    (item: IPhoto) => {
       setPhotos(prevData =>
         prevData.map(dataItem => {
           if (dataItem.id === item.id) {
-            return {...dataItem, likes: dataItem.likes - 1};
+            return {...dataItem, likes: dataItem.likes + 1};
           }
           return dataItem;
         }),
       );
-    }
-  }, []);
+    },
+    [photos],
+  );
+
+  const handleDislike = useCallback(
+    (item: IPhoto) => {
+      if (item.likes) {
+        setPhotos(prevData =>
+          prevData.map(dataItem => {
+            if (dataItem.id === item.id) {
+              return {...dataItem, likes: dataItem.likes - 1};
+            }
+            return dataItem;
+          }),
+        );
+      }
+    },
+    [photos],
+  );
 
   const memoizedData = useMemo(() => photos, [photos]);
 
