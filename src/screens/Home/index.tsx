@@ -1,10 +1,11 @@
 import {FlatList, View} from 'react-native';
-import React from 'react';
+import React, {useCallback} from 'react';
 import useHome from './hooks/useHome';
 import styles from './styles';
 import {Button, Loading} from '@components/atoms';
 import {PhotoItem} from '@components/molecules';
 import {IPhotoItem} from './types';
+import {IPhoto} from '@types';
 
 const Home = () => {
   const {
@@ -17,16 +18,17 @@ const Home = () => {
     handleLikeAll,
   } = useHome();
 
-  const renderItem = ({item, index}: IPhotoItem) => {
+  const renderItem = ({item}: IPhotoItem) => {
     return (
       <PhotoItem
-        key={index}
         photo={item}
         onPressLike={handleLike}
         onPressDislike={handleDislike}
       />
     );
   };
+
+  const keyExtractor = useCallback((item: IPhoto) => item?.id.toString(), []);
 
   return (
     <View style={styles.container}>
@@ -40,6 +42,7 @@ const Home = () => {
         renderItem={renderItem}
         contentContainerStyle={styles.listContainer}
         ListFooterComponent={<Loading isLoading={isLoading} />}
+        keyExtractor={keyExtractor}
       />
     </View>
   );
