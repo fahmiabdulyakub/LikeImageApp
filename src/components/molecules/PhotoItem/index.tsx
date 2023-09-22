@@ -8,6 +8,7 @@ import usePhotoItem from './hooks/usePhotoItem';
 const PhotoItem = (props: PhotoItemProps) => {
   const {photo, ...baseProps} = props;
   const {handleLike, handleDislike} = usePhotoItem(props);
+  console.log('render item', photo.id);
   return (
     <View style={styles.container} {...baseProps}>
       <Image source={{uri: photo.urls.regular}} style={styles.thumbnail} />
@@ -22,4 +23,12 @@ const PhotoItem = (props: PhotoItemProps) => {
   );
 };
 
-export default memo(PhotoItem);
+export default memo(
+  PhotoItem,
+  function areEqual(prevProps: PhotoItemProps, nextProps: PhotoItemProps) {
+    if (prevProps.photo.likes !== nextProps.photo.likes) {
+      return false;
+    }
+    return true;
+  },
+);
